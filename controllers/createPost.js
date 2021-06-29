@@ -19,8 +19,8 @@ const CreatePost = async (req, res) => {
                         content: req.body.content
                     })
                 //save to mongodb POSTS collection
-            await post.save();
-                if(err) {
+            const result = await post.save();
+                if(!result) {
                     res.status(400).json({message: "Error creating your post", status: "fail"})
                     throw err;
                 } 
