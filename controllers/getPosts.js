@@ -1,13 +1,14 @@
 const Post = require('../model/Posts')
 
-const GetPosts = (req, res) => {
+const GetPosts = async (req, res) => {
     //QUERYING THE DB FOR ALL POST sorted from recently added
-    Post.find({}).sort({createdAt: -1})
-    .then(post => {
-        if(!post) res.send("No Posts yet");
-            res.status(200).send(post);
-    }).catch (err => console.log(err))
-
+    try {
+        const posts = await Post.find({}).sort({createdAt: -1});
+        if(!posts) res.status(204).send("No Post to display");
+        res.status(200).json(posts)
+    } catch (error) {
+        throw error
+    }
 }
 
 module.exports = GetPosts;
